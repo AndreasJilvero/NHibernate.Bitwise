@@ -6,7 +6,7 @@ namespace NHibernate.Bitwise.Tests.Tests
 {
     public class TestBase
     {
-        public ISession Session { get; private set; }
+        private ISession _session;
 
         [SetUp]
         public void Init()
@@ -15,14 +15,35 @@ namespace NHibernate.Bitwise.Tests.Tests
             var configuration = factory.GetConfiguration();
             var sessionFactory = factory.GetSessionFactory();
 
-            Session = sessionFactory.OpenSession();
-            new SchemaExport(configuration).Execute(true, true, false, Session.Connection, Console.Out);
+            _session = sessionFactory.OpenSession();
+            new SchemaExport(configuration).Execute(true, true, false, _session.Connection, Console.Out);
         }
 
         [TearDown]
         public void Dispose()
         {
-            Session.Dispose();
+            _session.Dispose();
+        }
+
+        public void Persist<T>(T obj)
+        {
+            _session.Save(obj);
+            _session.Flush();
+        }
+
+        public void Forget<T>(T obj)
+        {
+            _session.Evict(obj);
+        }
+
+        public T Get<T>(object id)
+        {
+            return _session.Get<T>(id);
+        }
+
+        public T Query<T>(Func<ISession, T> query)
+        {
+            return query(_session);
         }
     }
 }

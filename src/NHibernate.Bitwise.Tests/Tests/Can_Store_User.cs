@@ -9,11 +9,10 @@ namespace NHibernate.Bitwise.Tests.Tests
         [Test]
         public void CanStoreUser()
         {
-            var user = new User { Name = "John Doe", Permissions = Permissions.Read };
-            Session.Save(user);
-            Session.Flush();
-            Session.Clear();
-            var users = Session.QueryOver<User>().List();
+            var user = new User("John Doe", Permissions.Read);
+            Persist(user);
+            Forget(user);
+            var users = Query(x => x.QueryOver<User>().List());
             Assert.IsNotEmpty(users);
         }
     }

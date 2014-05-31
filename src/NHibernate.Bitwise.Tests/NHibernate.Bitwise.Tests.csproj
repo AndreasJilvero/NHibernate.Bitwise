@@ -77,18 +77,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHibernate.Bitwise\NHibernate.Bitwise.csproj">
+      <Project>{be858049-a026-47c0-be0c-0202ea802ba3}</Project>
+      <Name>NHibernate.Bitwise</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NHibernate.Bitwise\NHibernate.Bitwise.csproj">
-      <Project>{be858049-a026-47c0-be0c-0202ea802ba3}</Project>
-      <Name>NHibernate.Bitwise</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
