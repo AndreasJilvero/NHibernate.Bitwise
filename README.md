@@ -1,5 +1,5 @@
 # NHibernate Bitwise #
-----------
+
 Some helping criterias to use with NHibernates QueryOver when you want to perform bitwise operations on enums.
 
 ## Usage ##
