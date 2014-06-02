@@ -23,7 +23,7 @@ namespace NHibernate.Bitwise
             var disjunction = Restrictions.Disjunction();
             foreach (var value in values)
             {
-                disjunction.Add(new BitwiseExpression(Projection.PropertyName, value, " & "));
+                disjunction.Add(HasBit(value));
             }
 
             return disjunction;
