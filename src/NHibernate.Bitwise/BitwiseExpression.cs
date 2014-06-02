@@ -7,7 +7,7 @@ namespace NHibernate.Bitwise
 {
     public class BitwiseExpression : LogicalExpression
     {
-        public BitwiseExpression(string propertyName, Enum value, string @operator)
+        public BitwiseExpression(string propertyName, object value, string @operator)
             : base(new SimpleExpression(propertyName, value, @operator), Expression.Sql("?", value, NHibernateUtil.Enum(value.GetType())))
         {
         }

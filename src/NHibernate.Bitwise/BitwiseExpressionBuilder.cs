@@ -13,12 +13,12 @@ namespace NHibernate.Bitwise
 
         public IPropertyProjection Projection { get; set; }
 
-        public ICriterion HasBit(Enum value)
+        public ICriterion HasBit(object value)
         {
             return new BitwiseExpression(Projection.PropertyName, value, " & ");
         }
 
-        public ICriterion HasAny(params Enum[] values)
+        public ICriterion HasAny(params object[] values)
         {
             var disjunction = Restrictions.Disjunction();
             foreach (var value in values)
