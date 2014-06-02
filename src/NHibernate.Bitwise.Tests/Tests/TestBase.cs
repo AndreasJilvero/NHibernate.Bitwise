@@ -1,4 +1,5 @@
 ﻿using System;
+using NHibernate.Bitwise.Tests.Domain;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 
@@ -25,20 +26,11 @@ namespace NHibernate.Bitwise.Tests.Tests
             _session.Dispose();
         }
 
-        public void Persist<T>(T obj)
+        public void CreateUser(Permissions permissions)
         {
-            _session.Save(obj);
-            _session.Flush();
-        }
-
-        public void Forget<T>(T obj)
-        {
-            _session.Evict(obj);
-        }
-
-        public T Get<T>(object id)
-        {
-            return _session.Get<T>(id);
+            var user = new User("My Johnson", permissions);
+            _session.Save(user);
+            _session.Evict(user);
         }
 
         public T Query<T>(Func<ISession, T> query)
