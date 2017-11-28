@@ -5,7 +5,7 @@ Some helping criterias to use with NHibernates QueryOver when you want to perfor
 ## Usage ##
 Exact match:
 
-    var users = Session.QueryOver<User>().Where(x => x.Permissions == (Permissions.Read | Permissions.Write).List();
+    var users = Session.QueryOver<User>().Where(x => x.Permissions == (Permissions.Read | Permissions.Write)).List();
 
 One bit matches:
 
