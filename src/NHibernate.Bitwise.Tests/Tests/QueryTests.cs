@@ -60,5 +60,23 @@ namespace NHibernate.Bitwise.Tests.Tests
             var users = Query(session => session.QueryOver<User>().Where(criteria).List());
             Assert.IsEmpty(users);
         }
+
+        [Test]
+        public void NotHasBit_WithMatch_ReturnsMatchedUser()
+        {
+            CreateUser(Permissions.Read);
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(Permissions.Write);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.That(users.Count == 1);
+        }
+
+        [Test]
+        public void NotHasBit_WithoutMatch_ReturnsNoUser()
+        {
+            CreateUser(Permissions.Write | Permissions.Full);
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(Permissions.Write);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.IsEmpty(users);
+        }
     }
 }
