@@ -33,6 +33,16 @@ namespace NHibernate.Bitwise.Tests.Tests
         }
 
         [Test]
+        public void MaskNotMatch_ReturnsNoUser()
+        {
+            CreateUser(Permissions.Read | Permissions.Write | Permissions.Full);
+            var permissionValue = Permissions.Read | Permissions.Write;
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(permissionValue);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.That(users.Count == 0);
+        }
+
+        [Test]
         public void HasAny_WithMatch_ReturnsMatchedUsers()
         {
             CreateUser(Permissions.Read | Permissions.Write | Permissions.Full);

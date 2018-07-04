@@ -13,6 +13,7 @@ One bit matches:
 	var users = Session.QueryOver<User>().Where(criteria).List();
 
 Bit does not match:
+
 	var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(Permissions.Full);
 	var users = Query(session => session.QueryOver<User>().Where(criteria).List());
 
