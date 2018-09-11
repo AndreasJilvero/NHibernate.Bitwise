@@ -23,6 +23,26 @@ namespace NHibernate.Bitwise.Tests.Tests
         }
 
         [Test]
+        public void MaskMatch_ReturnsMatchingUsers()
+        {
+            CreateUser(Permissions.Read | Permissions.Write | Permissions.Full);
+            var permissionValue = Permissions.Write | Permissions.Full;
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).HasBit(permissionValue);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.That(users.Count == 1);
+        }
+
+        [Test]
+        public void MaskNotMatch_ReturnsNoUser()
+        {
+            CreateUser(Permissions.Read | Permissions.Write | Permissions.Full);
+            var permissionValue = Permissions.Read | Permissions.Write;
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(permissionValue);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.That(users.Count == 0);
+        }
+
+        [Test]
         public void HasAny_WithMatch_ReturnsMatchedUsers()
         {
             CreateUser(Permissions.Read | Permissions.Write | Permissions.Full);
@@ -57,6 +77,24 @@ namespace NHibernate.Bitwise.Tests.Tests
         {
             CreateUser(Permissions.Read | Permissions.Full);
             var criteria = BitwiseExpression.On<User>(x => x.Permissions).HasBit(Permissions.Write);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.IsEmpty(users);
+        }
+
+        [Test]
+        public void NotHasBit_WithMatch_ReturnsMatchedUser()
+        {
+            CreateUser(Permissions.Read);
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(Permissions.Write);
+            var users = Query(session => session.QueryOver<User>().Where(criteria).List());
+            Assert.That(users.Count == 1);
+        }
+
+        [Test]
+        public void NotHasBit_WithoutMatch_ReturnsNoUser()
+        {
+            CreateUser(Permissions.Write | Permissions.Full);
+            var criteria = BitwiseExpression.On<User>(x => x.Permissions).NotHasBit(Permissions.Write);
             var users = Query(session => session.QueryOver<User>().Where(criteria).List());
             Assert.IsEmpty(users);
         }
